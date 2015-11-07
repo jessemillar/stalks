@@ -1,8 +1,9 @@
 module.exports = {
-    get: function(request, response) {
-        return response.send("You have no stocks.");
-    },
-    setup: function(request, response) {
-        // Stuff
+    sell: function(request, response) {
+        Portfolio.findOne({
+            firstName: 'Stephanie'
+        }).exec(function findOneCB(err, found) {
+            return response.send(JSON.stringify(found));
+        });
     }
 };

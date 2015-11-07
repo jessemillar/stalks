@@ -39,6 +39,10 @@ module.exports.routes = {
     'GET /check/:stock': {
         controller: "Checker",
         action: "price"
+    },
+    'POST /sell/:stock/:count': {
+        controller: "Portfolio",
+        action: "sell"
     }
 
     /***************************************************************************
