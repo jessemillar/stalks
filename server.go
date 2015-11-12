@@ -37,8 +37,7 @@ func health(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func testPost(c web.C, w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("mysql", "root:"+os.Getenv("STALKS_DB_PASS")+"@tcp("+os.Getenv("STALKS_DB_HOST")+":"+os.Getenv("STALKS_DB_PORT"))
-
-	if err != nil {
+	if err != nil { // Die if there was an error
 		fmt.Fprintf(w, "Error: %s\n", err)
 		return
 	}
@@ -48,39 +47,41 @@ func testPost(c web.C, w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s", "Post response")
 }
 
-func price(c web.C, w http.ResponseWriter, r *http.Request) {
+func check(c web.C, w http.ResponseWriter, r *http.Request) {
 	client := new(http.Client)
 	res, err := client.Get("http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=" + c.URLParams["stock"])
-
-	if err != nil {
+	if err != nil { // Die if there was an error
 		fmt.Fprintf(w, "Error: %s", err)
 		return
 	}
 
 	// Super ghetto method of removing unnecessary callback garbage from the API response
 	body, err := ioutil.ReadAll(res.Body)
-
-	if err != nil {
+	if err != nil { // Die if there was an error
 		fmt.Fprintf(w, "Error: %s\n", err)
 		return
 	}
 
 	body = append(body[:0], body[18:]...) // Kill the leading function() bit
 	body = body[:len(body)-1]             // Remove the last character so we just have naked JSON
+	// End of ghetto code
 
-	var stock = new(Stock)
-	err = json.Unmarshal(body, stock)
-	if err != nil {
+	var stock = new(Stock)            // Make a new instance of the Stock struct
+	err = json.Unmarshal(body, stock) // Populate it with our JSON data
+	if err != nil {                   // Die if there was an error
 		fmt.Fprintf(w, "Error: %s\n", err)
 		return
 	}
 
-	fmt.Fprintf(w, "%s is currently worth %d turnips\n", stock.Name, int(stock.Price * 100))
+	fmt.Fprintf(w, "%s is currently worth %d turnips\n", stock.Name, int(stock.Price*100)) // Return the price through the API endpoint
 }
 
 func main() {
 	goji.Get("/health", health)
-	goji.Get("/price/:stock", price)
+	// goji.Get("/portfolio/:user", portfolio)
+	goji.Get("/check/:stock", check)
 	goji.Post("/post", testPost)
+	// goji.Post("/buy/:stock/:quantity", buy)
+	// goji.Post("/sell/:stock/:quantity", sell)
 	goji.Serve()
 }
