@@ -36,7 +36,7 @@ func health(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func testPost(c web.C, w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:"+os.Getenv("STALK_DB_PASS")+"@tcp("+os.Getenv("STALK_DB")+":"+os.Getenv("STALK_DB_PORT"))
+	db, err := sql.Open("mysql", "root:"+os.Getenv("STALKS_DB_PASS")+"@tcp("+os.Getenv("STALKS_DB_HOST")+":"+os.Getenv("STALKS_DB_PORT"))
 
 	if err != nil {
 		fmt.Fprintf(w, "Error: %s\n", err)
@@ -75,7 +75,7 @@ func price(c web.C, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "%s: %f\n", stock.Name, stock.Price)
+	fmt.Fprintf(w, "%s is currently worth %d turnips\n", stock.Name, int(stock.Price * 100))
 }
 
 func main() {
