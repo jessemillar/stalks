@@ -36,7 +36,7 @@ func health(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func testPost(c web.C, w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:"+os.Getenv("STALKS_DB_PASS")+"@tcp("+os.Getenv("STALKS_DB_HOST")+":"+os.Getenv("STALKS_DB_PORT")+")/"+os.Getenv("STALKS_DB_NAME"))
+	db, err := sql.Open("mysql", os.Getenv("STALKS_DB_USER")+":"+os.Getenv("STALKS_DB_PASS")+"@tcp("+os.Getenv("STALKS_DB_HOST")+":"+os.Getenv("STALKS_DB_PORT")+")/"+os.Getenv("STALKS_DB_NAME"))
 	if err != nil { // Die if there was an error
 		fmt.Fprintf(w, "Error: %s\n", err)
 		return
