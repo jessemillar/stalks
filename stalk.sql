@@ -53,11 +53,11 @@ CREATE TABLE IF NOT EXISTS `hallOfFame` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `portfolioContent`
+-- Table structure for table `portfolio`
 --
 
-DROP TABLE IF EXISTS `portfolioContent`;
-CREATE TABLE IF NOT EXISTS `portfolioContent` (
+DROP TABLE IF EXISTS `portfolio`;
+CREATE TABLE IF NOT EXISTS `portfolio` (
   `id` int(11) NOT NULL,
   `userID` varchar(80) NOT NULL,
   `ticker` varchar(10) NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `username` varchar(80) NOT NULL,
   `firstName` text NOT NULL,
   `lastName` text NOT NULL,
-  `cash` int(11) NOT NULL
+  `turnips` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -97,11 +97,11 @@ ALTER TABLE `hallOfFame`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `portfolioContent`
+-- Indexes for table `portfolio`
 --
-ALTER TABLE `portfolioContent`
+ALTER TABLE `portfolio`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `portfolioContent_userID` (`userID`);
+  ADD KEY `portfolio_userID` (`userID`);
 
 --
 -- Indexes for table `user`
@@ -124,9 +124,9 @@ ALTER TABLE `dailyLog`
 ALTER TABLE `hallOfFame`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `portfolioContent`
+-- AUTO_INCREMENT for table `portfolio`
 --
-ALTER TABLE `portfolioContent`
+ALTER TABLE `portfolio`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
@@ -139,10 +139,10 @@ ALTER TABLE `dailyLog`
   ADD CONSTRAINT `dailyLog_userID_key` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `portfolioContent`
+-- Constraints for table `portfolio`
 --
-ALTER TABLE `portfolioContent`
-  ADD CONSTRAINT `portfolioContent_userID` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `portfolio`
+  ADD CONSTRAINT `portfolio_userID` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
