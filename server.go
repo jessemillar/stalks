@@ -66,13 +66,19 @@ func portfolio(c web.C, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := db.QueryRow("SELECT * FROM portfolios WHERE userID=?", c.URLParams["userID"]).Scan(&Portfolio)
+	row := db.QueryRow("SELECT * FROM portfolios WHERE userID=?", c.URLParams["userID"])
 	if err != nil {
 		fmt.Fprintf(w, "Error: %s\n", err)
 	}
-	defer rows.Close()
 
-	fmt.Fprintf(w, "%s", rows)
+	p := new(Portfolio)
+	err = row.Scan(p)
+
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s\n", err)
+	}
+
+	fmt.Fprintf(w, "%s", row)
 }
 
 func check(c web.C, w http.ResponseWriter, r *http.Request) {
