@@ -43,7 +43,7 @@ func testPost(c web.C, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := db.Exec("INSERT INTO users (firstName, lastName, username, turnips) VALUES (?,?,?,?)", "Jesse", "Millar", "jessemillar", 1000000)
+	rows, err := db.Query("INSERT INTO users (firstName, lastName, username, turnips) VALUES (?,?,?,?)", "Jesse", "Millar", "jessemillar", 1000000)
 	if err != nil {
 		fmt.Fprintf(w, "Error: %s\n", err)
 	}
