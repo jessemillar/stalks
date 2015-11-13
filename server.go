@@ -43,6 +43,7 @@ func health(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func slack(c web.C, w http.ResponseWriter, r *http.Request) {
 	fmt.Println(c) // "Log" what we get from Slack
+	fmt.Println(r)
 }
 
 func makeUser(c web.C, w http.ResponseWriter, r *http.Request) {
