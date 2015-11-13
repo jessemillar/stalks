@@ -41,6 +41,10 @@ func health(c web.C, w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Uh, we had a slight weapons malfunction, but uh... everything's perfectly all right now. We're fine. We're all fine here now, thank you. How are you?")
 }
 
+func slack(c web.C, w http.ResponseWriter, r *http.Request) {
+	fmt.Println(c) // "Log" what we get from Slack
+}
+
 func makeUser(c web.C, w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("mysql", os.Getenv("STALKS_DB_USER")+":"+os.Getenv("STALKS_DB_PASS")+"@tcp("+os.Getenv("STALKS_DB_HOST")+":"+os.Getenv("STALKS_DB_PORT")+")/"+os.Getenv("STALKS_DB_NAME"))
 	defer db.Close()
@@ -112,6 +116,7 @@ func check(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	goji.Get("/health", health)
+	goji.Post("/slack", slack) // The main endpoint that Slack hits
 	goji.Get("/portfolio/:userID", portfolio)
 	goji.Get("/check/:stock", check)
 	goji.Post("/makeUser/:username/:firstName/:lastName", makeUser) // Mostly for development purposes
