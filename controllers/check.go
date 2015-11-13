@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/jessemillar/stalks/models"
@@ -13,14 +14,14 @@ func Check(c web.C, w http.ResponseWriter, r *http.Request) {
 	client := new(http.Client)
 	res, err := client.Get("http://dev.markitondemand.com/Api/v2/Quote/json?symbol=" + c.URLParams["stock"])
 	if err != nil { // Die if there was an error
-		fmt.Fprintf(w, "Error: %s", err)
+		log.Printf("Error: %s", err)
 		return
 	}
 
 	var stock = new(models.Stock)                 // Make a new instance of the Stock struct
 	err = json.NewDecoder(res.Body).Decode(stock) // Populate it with our JSON data
 	if err != nil {                               // Die if there was an error
-		fmt.Fprintf(w, "Error: %s\n", err)
+		log.Printf("Error: %s\n", err)
 		return
 	}
 
