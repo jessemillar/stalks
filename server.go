@@ -36,15 +36,20 @@ func health(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func testPost(c web.C, w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:"+os.Getenv("STALKS_DB_PASS")+"@tcp("+os.Getenv("STALKS_DB_HOST")+":"+os.Getenv("STALKS_DB_PORT")+")/"+os.Getenv("STALKS_DB_NAME"))
+	db, err := sql.Open("mysql", os.Getenv("STALKS_DB_USER")+":"+os.Getenv("STALKS_DB_PASS")+"@tcp("+os.Getenv("STALKS_DB_HOST")+":"+os.Getenv("STALKS_DB_PORT")+")/"+os.Getenv("STALKS_DB_NAME"))
+	defer db.Close()
 	if err != nil { // Die if there was an error
 		fmt.Fprintf(w, "Error: %s\n", err)
 		return
 	}
 
-	defer db.Close()
+	rows, err := db.Exec("INSERT INTO users (firstName, lastName, username, turnips) VALUES (?,?,?,?)", "Jesse", "Millar", "jessemillar", 1000000)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s\n", err)
+	}
+	defer rows.Close()
 
-	fmt.Fprintf(w, "%s", "Post response")
+	fmt.Fprintf(w, "%s", "Success")
 }
 
 func check(c web.C, w http.ResponseWriter, r *http.Request) {

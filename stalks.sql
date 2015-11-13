@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.2
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: mariadb
--- Generation Time: Nov 12, 2015 at 10:17 PM
--- Server version: 5.6.26
--- PHP Version: 5.6.7-1~dotdeb.2
+-- Host: 172.17.0.2
+-- Generation Time: Nov 12, 2015 at 11:49 PM
+-- Server version: 5.7.9
+-- PHP Version: 5.6.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `stalks`
@@ -23,11 +23,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dailyLog`
+-- Table structure for table `dailyLogs`
 --
 
-DROP TABLE IF EXISTS `dailyLog`;
-CREATE TABLE IF NOT EXISTS `dailyLog` (
+CREATE TABLE `dailyLogs` (
   `logID` int(11) NOT NULL,
   `userID` varchar(80) NOT NULL,
   `date` date NOT NULL,
@@ -40,8 +39,7 @@ CREATE TABLE IF NOT EXISTS `dailyLog` (
 -- Table structure for table `hallOfFame`
 --
 
-DROP TABLE IF EXISTS `hallOfFame`;
-CREATE TABLE IF NOT EXISTS `hallOfFame` (
+CREATE TABLE `hallOfFame` (
   `id` int(11) NOT NULL,
   `userID` varchar(80) NOT NULL,
   `username` varchar(80) NOT NULL,
@@ -53,11 +51,10 @@ CREATE TABLE IF NOT EXISTS `hallOfFame` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `portfolio`
+-- Table structure for table `portfolios`
 --
 
-DROP TABLE IF EXISTS `portfolio`;
-CREATE TABLE IF NOT EXISTS `portfolio` (
+CREATE TABLE `portfolios` (
   `id` int(11) NOT NULL,
   `userID` varchar(80) NOT NULL,
   `ticker` varchar(10) NOT NULL,
@@ -67,11 +64,10 @@ CREATE TABLE IF NOT EXISTS `portfolio` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `users` (
   `userID` varchar(80) NOT NULL,
   `username` varchar(80) NOT NULL,
   `firstName` text NOT NULL,
@@ -84,29 +80,23 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 --
--- Indexes for table `dailyLog`
+-- Indexes for table `dailyLogs`
 --
-ALTER TABLE `dailyLog`
+ALTER TABLE `dailyLogs`
   ADD PRIMARY KEY (`logID`),
   ADD KEY `log_userID` (`userID`);
 
 --
--- Indexes for table `hallOfFame`
+-- Indexes for table `portfolios`
 --
-ALTER TABLE `hallOfFame`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `portfolio`
---
-ALTER TABLE `portfolio`
+ALTER TABLE `portfolios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `portfolio_userID` (`userID`);
 
 --
--- Indexes for table `user`
+-- Indexes for table `users`
 --
-ALTER TABLE `user`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`userID`);
 
 --
@@ -114,35 +104,30 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `dailyLog`
+-- AUTO_INCREMENT for table `dailyLogs`
 --
-ALTER TABLE `dailyLog`
+ALTER TABLE `dailyLogs`
   MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `hallOfFame`
+-- AUTO_INCREMENT for table `portfolios`
 --
-ALTER TABLE `hallOfFame`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `portfolio`
---
-ALTER TABLE `portfolio`
+ALTER TABLE `portfolios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `dailyLog`
+-- Constraints for table `dailyLogs`
 --
-ALTER TABLE `dailyLog`
-  ADD CONSTRAINT `dailyLog_userID_key` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `dailyLogs`
+  ADD CONSTRAINT `dailyLog_userID_key` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `portfolio`
+-- Constraints for table `portfolios`
 --
-ALTER TABLE `portfolio`
-  ADD CONSTRAINT `portfolio_userID` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `portfolios`
+  ADD CONSTRAINT `portfolio_userID` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
