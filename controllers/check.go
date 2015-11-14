@@ -26,8 +26,8 @@ func Check(c web.C, w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(stock.Name) > 0 {
-		fmt.Fprintf(w, "payload={'text': '%s is currently worth %d turnips.'}\n", stock.Name, int(stock.Price*100)) // Return the price through the API endpoint
+		fmt.Fprintf(w, "{%s is currently worth %d turnips.\n", stock.Name, int(stock.Price*100)) // Return the price through the API endpoint
 	} else {
-		fmt.Fprintf(w, "payload={'text': '%s does not appear to be a valid stock...'}\n", c.URLParams["stock"]) // Return the price through the API endpoint
+		fmt.Fprintf(w, "%s does not appear to be a valid stock...\n", c.URLParams["stock"]) // Return the price through the API endpoint
 	}
 }
