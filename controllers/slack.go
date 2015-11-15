@@ -12,5 +12,7 @@ func Slack(c web.C, w http.ResponseWriter, r *http.Request) {
 
 	if params[0] == "check" {
 		Check(c, w, r)
+	} else if params[0] == "portfolio" {
+		Portfolio(c, w, r)
 	}
 }

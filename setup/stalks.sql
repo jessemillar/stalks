@@ -2,8 +2,8 @@
 -- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: 172.17.0.2
--- Generation Time: Nov 12, 2015 at 11:49 PM
+-- Host: 172.17.0.3
+-- Generation Time: Nov 15, 2015 at 09:13 PM
 -- Server version: 5.7.9
 -- PHP Version: 5.6.15
 
@@ -43,8 +43,6 @@ CREATE TABLE `hallOfFame` (
   `id` int(11) NOT NULL,
   `userID` varchar(80) NOT NULL,
   `username` varchar(80) NOT NULL,
-  `firstName` text NOT NULL,
-  `lastName` text NOT NULL,
   `gain` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -69,9 +67,7 @@ CREATE TABLE `portfolios` (
 
 CREATE TABLE `users` (
   `userID` varchar(80) NOT NULL,
-  `username` varchar(80) NOT NULL,
-  `firstName` text NOT NULL,
-  `lastName` text NOT NULL,
+  `username` text NOT NULL,
   `turnips` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
