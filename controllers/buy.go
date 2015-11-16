@@ -68,7 +68,7 @@ func Buy(c web.C, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Subtract money
-	_, err = db.Query("UPDATE users SET turnips=? WHERE userID=?", float64(turnips)-stock.Price, r.PostFormValue("user_id"))
+	_, err = db.Query("UPDATE users SET turnips=? WHERE userID=?", float64(turnips)-stock.Price*100, r.PostFormValue("user_id"))
 	if err != nil { // Generic error
 		log.Printf("Error: %s\n", err)
 		return
