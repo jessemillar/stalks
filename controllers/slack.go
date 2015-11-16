@@ -16,5 +16,7 @@ func Slack(c web.C, w http.ResponseWriter, r *http.Request) {
 		Portfolio(c, w, r)
 	} else if params[0] == "buy" {
 		Buy(c, w, r)
+	} else if params[0] == "sell" {
+		Sell(c, w, r)
 	}
 }
