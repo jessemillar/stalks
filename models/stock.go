@@ -12,7 +12,7 @@ type Stock struct {
 	ChangePercentYTD float64 `json:"ChangePercentYTD"`
 	ChangeYTD        float64 `json:"ChangeYTD"`
 	High             float64 `json:"High"`
-	Quote            float64 `json:"LastPrice"`
+	LastPrice        float64 `json:"LastPrice"`
 	Price            int
 	Low              float64 `json:"Low"`
 	MSDate           float64 `json:"MSDate"`
@@ -42,7 +42,7 @@ func CheckStock(symbol string) *Stock {
 		log.Panicf("%s does not appear to be a valid stock...\n", symbol)
 	}
 
-	stock.Price = int(stock.Quote * 100) // Convert to turnips
+	stock.Price = int(stock.LastPrice * 100) // Convert to turnips
 
 	return stock
 }
