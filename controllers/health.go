@@ -1,7 +1,13 @@
 package controllers
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
 
-func Health() string {
-	return fmt.Sprintf("Uh, we had a slight weapons malfunction, but uh... everything's perfectly all right now. We're fine. We're all fine here now, thank you. How are you?")
+	"github.com/jessemillar/stalks/helpers"
+	"github.com/zenazn/goji/web"
+)
+
+func Health(c web.C, w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "%s\n", helpers.Health())
 }

@@ -2,12 +2,12 @@ package controllers
 
 import (
 	"fmt"
+	"net/http"
 
-	"github.com/jessemillar/stalks/models"
+	"github.com/jessemillar/stalks/helpers"
+	"github.com/zenazn/goji/web"
 )
 
-func Portfolio(userID string) string {
-	turnips := models.GetTurnips(userID)
-
-	return fmt.Sprintf("You have %d turnips.\n", turnips)
+func Portfolio(c web.C, w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "%s\n", helpers.Portfolio(r.PostFormValue("user_id")))
 }

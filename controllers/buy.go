@@ -2,28 +2,14 @@ package controllers
 
 import (
 	"fmt"
-	"strings"
+	"net/http"
+	"strconv"
 
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jessemillar/stalks/models"
+	"github.com/jessemillar/stalks/helpers"
+	"github.com/zenazn/goji/web"
 )
 
-func Buy(userID string, symbol string, quantity int) string {
-	stock := models.CheckStock(symbol)
-	turnips := models.GetTurnips(userID)
-
-	// Make sure they have enough turnips to buy
-	if turnips < int(stock.Price) {
-		return fmt.Sprintf("You do not have enough turnips.\n") // Return information about a user's portfolio
-	}
-
-	models.SubtractMoney(userID, stock.Price)
-
-	if quantity == 0 {
-		quantity = 1
-	}
-
-	models.AddShares(userID, symbol, quantity)
-
-	return fmt.Sprintf("%d share(s) of %s have been added to your portfolio.\n", quantity, strings.ToUpper(symbol)) // Return information about a user's portfolio
+func Buy(c web.C, w http.ResponseWriter, r *http.Request) {
+	quantity, _ := strconv.Atoi(c.URLParams["quantity"])
+	fmt.Fprintf(w, "%s\n", helpers.Buy(r.PostFormValue("userID"), c.URLParams["symbol"], quantity))
 }
