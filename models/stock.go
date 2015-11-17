@@ -29,13 +29,13 @@ func CheckStock(symbol string) *Stock {
 	client := new(http.Client)
 	res, err := client.Get("http://dev.markitondemand.com/Api/v2/Quote/json?symbol=" + symbol)
 	if err != nil { // Die if there was an error
-		log.Panic("Error: %s", err)
+		log.Panicf("Error: %s", err)
 	}
 
 	var stock = new(Stock)                        // Make a new instance of the Stock struct
 	err = json.NewDecoder(res.Body).Decode(stock) // Populate it with our JSON data
 	if err != nil {                               // Die if there was an error
-		log.Panic("Error: %s\n", err)
+		log.Panic(err)
 	}
 
 	if len(stock.Name) == 0 {

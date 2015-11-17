@@ -10,14 +10,14 @@ import (
 
 func Buy(userID string, symbol string, quantity int) string {
 	stock := models.CheckStock(symbol)
-	turnips := models.GetTurnips(userID)
+	turnips := models.GetUser(userID).Turnips
 
 	// Make sure they have enough turnips to buy
 	if turnips < int(stock.Price) {
 		return fmt.Sprintf("You do not have enough turnips.\n") // Return information about a user's portfolio
 	}
 
-	models.SubtractMoney(userID, stock.Price)
+	models.SubtractTurnips(userID, stock.Price)
 
 	if quantity == 0 {
 		quantity = 1
