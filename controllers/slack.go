@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/zenazn/goji/web"
@@ -11,12 +13,14 @@ func Slack(c web.C, w http.ResponseWriter, r *http.Request) {
 	params := strings.Fields(r.PostFormValue("text"))
 
 	if params[0] == "check" || params[0] == "c" {
-		Check(c, w, r)
+		fmt.Fprintf(w, "%s\n", Check(params[1]))
 	} else if params[0] == "portfolio" || params[0] == "p" {
-		Portfolio(c, w, r)
+		fmt.Fprintf(w, "%s\n", Portfolio(r.PostFormValue("user_id")))
 	} else if params[0] == "buy" || params[0] == "b" {
-		Buy(c, w, r)
+		quantity, _ := strconv.Atoi(params[2])
+		fmt.Fprintf(w, "%s\n", Buy(r.PostFormValue("user_id"), params[1], quantity))
 	} else if params[0] == "sell" || params[0] == "s" {
-		Sell(c, w, r)
+		quantity, _ := strconv.Atoi(params[2])
+		fmt.Fprintf(w, "%s\n", Sell(r.PostFormValue("user_id"), params[1], quantity))
 	}
 }

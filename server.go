@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	goji.Get("/health", controllers.Health)
+	// goji.Get("/health", controllers.Health)
 	goji.Post("/slack", controllers.Slack) // The main endpoint that Slack hits
 	// goji.Post("/portfolio", controllers.Portfolio)
 	// goji.Get("/check/:stock", controllers.Check)

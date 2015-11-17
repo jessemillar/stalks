@@ -2,14 +2,12 @@ package controllers
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/jessemillar/stalks/models"
-	"github.com/zenazn/goji/web"
 )
 
-func Portfolio(c web.C, w http.ResponseWriter, r *http.Request) {
-	turnips := models.GetTurnips(r.PostFormValue("user_id"))
+func Portfolio(userID string) string {
+	turnips := models.GetTurnips(userID)
 
-	fmt.Fprintf(w, "You have %d turnips.\n", turnips) // Return information about a user's portfolio
+	return fmt.Sprintf("You have %d turnips.\n", turnips)
 }
