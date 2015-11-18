@@ -29,8 +29,7 @@ func GetUser(userID string) *User {
 	var user = new(User)
 	err := db.QueryRow("SELECT * FROM users WHERE userID=?", userID).Scan(&user.UserID, &user.Username, &user.Turnips)
 	if err == sql.ErrNoRows { // If the user doesn't exist yet
-		// helpers.MakeUser()
-		log.Panic(err)
+		return user // Return a blank user
 	} else if err != nil {
 		log.Panic(err)
 	}
