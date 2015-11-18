@@ -31,7 +31,7 @@ func GetUser(userID string) *User {
 	if err == sql.ErrNoRows { // If the user doesn't exist yet
 		// helpers.MakeUser()
 		log.Panic(err)
-	} else if err != nil { // Generic error
+	} else if err != nil {
 		log.Panic(err)
 	}
 
@@ -44,7 +44,7 @@ func AddTurnips(userID string, increase int) {
 	turnips := GetUser(userID).Turnips
 
 	_, err := db.Query("UPDATE users SET turnips=? WHERE userID=?", turnips+increase, userID)
-	if err != nil { // Generic error
+	if err != nil {
 		log.Panic(err)
 	}
 }
@@ -55,7 +55,7 @@ func SubtractTurnips(userID string, decrease int) {
 	turnips := GetUser(userID).Turnips
 
 	_, err := db.Query("UPDATE users SET turnips=? WHERE userID=?", turnips-decrease, userID)
-	if err != nil { // Generic error
+	if err != nil {
 		log.Panic(err)
 	}
 }
