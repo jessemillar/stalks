@@ -8,10 +8,10 @@ import (
 	"github.com/jessemillar/stalks/models"
 )
 
-func Sell(userID string, symbol string, quantity int) string {
+func Sell(userID string, quantity int, symbol string) string {
 	stock := models.CheckStock(symbol)
 
-	holdings := models.GetShares(userID, symbol)
+	holdings := models.GetShare(userID, symbol)
 	if holdings >= quantity { // If we successfully sell
 		models.SubtractShares(userID, symbol, quantity)
 		models.AddTurnips(userID, stock.Price) // Add turnips to our wallet

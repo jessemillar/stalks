@@ -8,7 +8,7 @@ import (
 	"github.com/jessemillar/stalks/models"
 )
 
-func Buy(userID string, symbol string, quantity int) string {
+func Buy(userID string, quantity int, symbol string) string {
 	stock := models.CheckStock(symbol)
 	turnips := models.GetUser(userID).Turnips
 
