@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"log"
+	"strings"
 
 	"github.com/jessemillar/stalks/accessors"
 )
@@ -17,7 +18,7 @@ func GetShare(userID string, symbol string) int {
 	db := accessors.Connect()
 
 	var investment = new(Investment)
-	err := db.QueryRow("SELECT * FROM portfolios WHERE userID=? AND ticker=?", userID, symbol).Scan(&investment.ID, &investment.UserID, &investment.Ticker, &investment.Quantity)
+	err := db.QueryRow("SELECT * FROM portfolios WHERE userID=? AND ticker=?", userID, strings.ToUpper(symbol)).Scan(&investment.ID, &investment.UserID, &investment.Ticker, &investment.Quantity)
 	if err == sql.ErrNoRows { // If the user doesn't have any shares of the given stock
 		return -1
 	} else if err != nil {
@@ -27,18 +28,33 @@ func GetShare(userID string, symbol string) int {
 	return investment.Quantity
 }
 
-func GetAllShares(userID string) int {
+func GetAllShares(userID string) []Investment {
 	db := accessors.Connect()
 
-	var investment = new(Investment)
-	rows, err := db.Query("SELECT * FROM portfolios WHERE userID=?", userID).Scan(&investment.ID, &investment.UserID, &investment.Ticker, &investment.Quantity)
-	if err == sql.ErrNoRows { // If the user doesn't have any shares
-		return -1
-	} else if err != nil {
+	var investments []Investment
+	rows, err := db.Query("SELECT * FROM portfolios WHERE userID=?", userID)
+	if err != nil {
 		log.Panic(err)
 	}
 
-	return investment.Quantity
+	for rows.Next() {
+		var share = new(Investment)
+		rows.Scan(&share.ID, &share.UserID, &share.Ticker, &share.Quantity)
+
+		investments = append(investments, *share)
+	}
+
+	return investments
+}
+
+func GetPortfolio(userID string) Portfolio {
+	var portfolio = new(Portfolio)
+
+	portfolio.UserID = userID
+	portfolio.Turnips = GetUser(userID).Turnips
+	portfolio.Investments = GetAllShares(userID)
+
+	return *portfolio
 }
 
 func AddShares(userID string, symbol string, increase int) {
@@ -46,12 +62,12 @@ func AddShares(userID string, symbol string, increase int) {
 
 	quantity := GetShare(userID, symbol)
 	if quantity >= 0 {
-		_, err := db.Query("UPDATE portfolios SET quantity=? WHERE userID=? AND ticker=?", quantity+increase, userID, symbol)
+		_, err := db.Query("UPDATE portfolios SET quantity=? WHERE userID=? AND ticker=?", quantity+increase, userID, strings.ToUpper(symbol))
 		if err != nil {
 			log.Panic(err)
 		}
 	} else {
-		_, err := db.Query("INSERT INTO portfolios (userID, ticker, quantity) VALUES (?,?,?)", userID, symbol, increase)
+		_, err := db.Query("INSERT INTO portfolios (userID, ticker, quantity) VALUES (?,?,?)", userID, strings.ToUpper(symbol), increase)
 		if err != nil {
 			log.Panic(err)
 		}
@@ -63,7 +79,7 @@ func SubtractShares(userID string, symbol string, decrease int) int {
 
 	quantity := GetShare(userID, symbol)
 	if quantity >= 0 && quantity >= decrease {
-		_, err := db.Query("UPDATE portfolios SET quantity=? WHERE userID=? AND ticker=?", quantity-decrease, userID, symbol)
+		_, err := db.Query("UPDATE portfolios SET quantity=? WHERE userID=? AND ticker=?", quantity-decrease, userID, strings.ToUpper(symbol))
 		if err != nil {
 			log.Panic(err)
 		}

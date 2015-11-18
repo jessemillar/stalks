@@ -11,7 +11,7 @@ func main() {
 	goji.Post("/play", controllers.User)
 	goji.Post("/portfolio", controllers.Portfolio)
 	goji.Get("/check/:symbol", controllers.Check)
-	goji.Post("/buy/:symbol/:quantity", controllers.Buy)
-	goji.Post("/sell/:symbol/:quantity", controllers.Sell)
+	goji.Post("/buy/:quantity/:symbol", controllers.Buy)
+	goji.Post("/sell/:quantity/:symbol", controllers.Sell)
 	goji.Serve()
 }
