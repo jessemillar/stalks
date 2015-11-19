@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/jessemillar/stalks/helpers"
+	"github.com/jessemillar/stalks/models"
 	"github.com/zenazn/goji/web"
 )
 
@@ -21,7 +22,15 @@ func (cg *ControllerGroup) Slack(c web.C, w http.ResponseWriter, r *http.Request
 
 	if params[0] == "play" {
 		fmt.Fprintf(w, "%s\n", helpers.MakeUser(r.PostFormValue("user_id"), r.PostFormValue("user_name"), cg.Accessors))
-	} else if params[0] == "check" || params[0] == "c" {
+	}
+
+	user := models.GetUser(r.PostFormValue("user_id"))
+	if len(user.Username) == 0 { // If we get a blank user returned
+		fmt.Fprintf(w, "Your account does not exist yet. Please run `/stalks play` to start.")
+		return
+	}
+
+	if params[0] == "check" || params[0] == "c" {
 		if len(params) < 2 {
 			fmt.Fprintf(w, "Not enough parameters. Usage: `/stalks check [symbol]`")
 			return

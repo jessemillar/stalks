@@ -28,7 +28,7 @@ type Stock struct {
 func CheckStock(symbol string) *Stock {
 	client := new(http.Client)
 	res, err := client.Get("http://dev.markitondemand.com/Api/v2/Quote/json?symbol=" + symbol)
-	if err != nil { // Die if there was an error
+	if err != nil {
 		log.Panicf("Error: %s", err)
 	}
 

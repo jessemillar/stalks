@@ -1,22 +1,21 @@
 package helpers
 
 import (
-	"bytes"
-	"net/http"
+	"log"
 	"os"
+
+	"github.com/parnurzeal/gorequest"
 )
 
-// Webhook does something....
 func Webhook(message string) {
-	url := os.Getenv("STALKS_SLACK_WEBHOOK")
-
-	var jsonStr = []byte(`{"payload":"Buy cheese and bread for breakfast."}`)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	req.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	_, err = client.Do(req)
-	if err != nil {
-		panic(err)
+	request := gorequest.New()
+	resp, body, err := request.Post(os.Getenv("STALKS_SLACK_WEBHOOK")).
+		Send(`{"text":"` + message + `"}`).
+		End()
+	if err != nil { // Die if there was an error
+		log.Panicf("Error: %s", err)
 	}
+
+	log.Println(resp)
+	log.Println(body)
 }
