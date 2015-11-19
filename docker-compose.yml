@@ -1,6 +1,6 @@
 stalks:
   build: .
-  ports: 
+  ports:
    - "15000:8000"
   links:
    - mysql
@@ -8,12 +8,12 @@ stalks:
     STALKS_DB_HOST: mysql
     STALKS_DB_PASS: stalker
     STALKS_DB_USER: stalker
-    STALKS_DB_PORT: 3604
+    STALKS_DB_PORT: 3306
     STALKS_DB_NAME: stalk
-
+    
 mysql:
   image: mysql
-  environment: 
+  environment:
     MYSQL_ROOT_PASSWORD: test
     MYSQL_DATABASE: stalk
     MYSQL_USER: stalker
