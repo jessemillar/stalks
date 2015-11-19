@@ -10,6 +10,10 @@ import (
 
 // Sell sells a given number of the user's holdings in the symbol
 func Sell(userID string, quantity int, symbol string, ag *accessors.AccessorGroup) string {
+	if !MarketOpen() {
+		return fmt.Sprintf("The Stalk Market is currently closed.")
+	}
+
 	stock := models.CheckStock(symbol)
 	user := ag.GetUser(userID)
 

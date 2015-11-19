@@ -29,7 +29,7 @@ func CheckStock(symbol string) *Stock {
 	client := new(http.Client)
 	res, err := client.Get("http://dev.markitondemand.com/Api/v2/Quote/json?symbol=" + symbol)
 	if err != nil {
-		log.Panicf("Error: %s", err)
+		log.Panic(err)
 	}
 
 	var stock = new(Stock)                        // Make a new instance of the Stock struct

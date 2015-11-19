@@ -13,7 +13,7 @@ func Webhook(message string) {
 		Send(`{"text":"` + message + `"}`).
 		End()
 	if err != nil { // Die if there was an error
-		log.Panicf("Error: %s", err)
+		log.Panic(err)
 	}
 
 	log.Println(resp)

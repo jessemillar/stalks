@@ -10,6 +10,10 @@ import (
 
 // Buy buys a given number of stocks for the user
 func Buy(userID string, quantity int, symbol string, ag *accessors.AccessorGroup) string {
+	if !MarketOpen() {
+		return fmt.Sprintf("The Stalk Market is currently closed.")
+	}
+
 	stock := models.CheckStock(symbol)
 	user := ag.GetUser(userID)
 
