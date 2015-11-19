@@ -10,6 +10,7 @@ import (
 
 func Sell(userID string, quantity int, symbol string) string {
 	stock := models.CheckStock(symbol)
+	user := models.GetUser(userID)
 
 	holdings := models.GetShare(userID, symbol)
 	if holdings >= quantity { // If we successfully sell
