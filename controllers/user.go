@@ -8,7 +8,7 @@ import (
 	"github.com/zenazn/goji/web"
 )
 
-func User(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cg *ControllerGroup) User(c web.C, w http.ResponseWriter, r *http.Request) {
 	user := models.GetUser(r.PostFormValue("user_id"))
 	if len(user.Username) > 0 {
 		fmt.Fprintf(w, "Your account already exists. You have %d turnips.\n", user.Turnips)

@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// Webhook does something....
 func Webhook(message string) {
 	url := os.Getenv("STALKS_SLACK_WEBHOOK")
 
@@ -14,7 +15,7 @@ func Webhook(message string) {
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
-	resp, err := client.Do(req)
+	_, err = client.Do(req)
 	if err != nil {
 		panic(err)
 	}

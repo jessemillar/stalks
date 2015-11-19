@@ -10,7 +10,7 @@ import (
 	"github.com/zenazn/goji/web"
 )
 
-func Slack(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cg *ControllerGroup) Slack(c web.C, w http.ResponseWriter, r *http.Request) {
 	params := strings.Fields(r.PostFormValue("text"))
 
 	if len(params) == 0 {

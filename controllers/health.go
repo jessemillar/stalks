@@ -8,6 +8,6 @@ import (
 	"github.com/zenazn/goji/web"
 )
 
-func Health(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cg *ControllerGroup) Health(c web.C, w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s\n", helpers.Health())
 }
