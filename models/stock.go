@@ -38,10 +38,6 @@ func CheckStock(symbol string) *Stock {
 		log.Panic(err)
 	}
 
-	if len(stock.Name) == 0 {
-		log.Panicf("%s does not appear to be a valid stock...\n", symbol)
-	}
-
 	stock.Price = int(stock.LastPrice * 100) // Convert to turnips
 
 	return stock
