@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/jessemillar/stalks/helpers"
-	"github.com/jessemillar/stalks/models"
 	"github.com/zenazn/goji/web"
 )
 
@@ -24,7 +23,7 @@ func (cg *ControllerGroup) Slack(c web.C, w http.ResponseWriter, r *http.Request
 		fmt.Fprintf(w, "%s\n", helpers.MakeUser(r.PostFormValue("user_id"), r.PostFormValue("user_name"), cg.Accessors))
 	}
 
-	user := models.GetUser(r.PostFormValue("user_id"))
+	user := cg.Accessors.GetUser(r.PostFormValue("user_id"))
 	if len(user.Username) == 0 { // If we get a blank user returned
 		fmt.Fprintf(w, "Your account does not exist yet. Please run `/stalks play` to start.")
 		return
