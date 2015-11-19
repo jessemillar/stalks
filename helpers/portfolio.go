@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/jessemillar/stalks/accessors"
 	"github.com/jessemillar/stalks/models"
 )
 
-func Portfolio(userID string) string {
-	portfolio := models.GetPortfolio(userID)
+// Portfolio gets the given user's portfolio and returns it in string form
+func Portfolio(userID string, ag *accessors.AccessorGroup) string {
+	portfolio := ag.GetPortfolio(userID)
 	compose := []string{}
 	worth := portfolio.Turnips
 

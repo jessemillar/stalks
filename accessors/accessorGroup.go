@@ -1,6 +1,8 @@
 package accessors
 
 import (
+	_ "github.com/go-sql-driver/mysql" // Blank import due to its use as a driver
+
 	"database/sql"
 	"log"
 )

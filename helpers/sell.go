@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"strings"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/jessemillar/stalks/accessors"
 	"github.com/jessemillar/stalks/models"
 )
 
-func Sell(userID string, quantity int, symbol string) string {
+// Sell sells a given number of the user's holdings in the symbol
+func Sell(userID string, quantity int, symbol string, ag *accessors.AccessorGroup) string {
 	stock := models.CheckStock(symbol)
 
-	holdings := models.GetShare(userID, symbol)
+	holdings := ag.GetShare(userID, symbol)
 	if holdings >= quantity { // If we successfully sell
-		models.SubtractShares(userID, symbol, quantity)
-		models.AddTurnips(userID, stock.Price*quantity) // Add turnips to our wallet
+		ag.SubtractShares(userID, symbol, quantity)
+		ag.AddTurnips(userID, stock.Price*quantity) // Add turnips to our wallet
 	} else { // Else return a human-readable error
 		return fmt.Sprintf("You do not have enough shares of %s to sell %d. You have %d shares.\n", strings.ToUpper(symbol), quantity, holdings) // Return information about a user's portfolio
 	}
