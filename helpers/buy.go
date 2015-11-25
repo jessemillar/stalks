@@ -18,7 +18,7 @@ func Buy(userID string, quantity int, symbol string, ag *accessors.AccessorGroup
 	user := ag.GetUser(userID)
 
 	if stock.Name == "N/A" || stock.Price == 0 {
-		return fmt.Sprintf("%s does not appear to be a valid stock... Please try again.\n", strings.ToUpper(symbol)) // Return the price through the API endpoint
+		return fmt.Sprintf("%s does not appear to be a valid stock...\n", strings.ToUpper(symbol)) // Return the price through the API endpoint
 	}
 
 	// Make sure they have enough turnips to buy
