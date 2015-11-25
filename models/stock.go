@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,14 +11,12 @@ import (
 
 type Stock struct {
 	Name  string
-	Ask   float64
-	Bid   float64
 	Price int
 }
 
 func CheckStock(symbol string) *Stock {
 	client := new(http.Client)
-	res, err := client.Get("http://finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=nab")
+	res, err := client.Get("http://finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=l1on")
 	if err != nil {
 		log.Panic(err)
 	}
@@ -31,18 +30,18 @@ func CheckStock(symbol string) *Stock {
 
 	response := strings.Split(string(body), ",")
 
-	ask, _ := strconv.ParseFloat(response[1], 64)
-	bid, _ := strconv.ParseFloat(response[2], 64)
-
-	stock.Name = response[0]
-	stock.Ask = ask * 100
-	stock.Bid = bid * 100
-
-	if stock.Ask > stock.Bid { // Ghetto and temporary
-		stock.Price = int(stock.Ask)
-	} else {
-		stock.Price = int(stock.Bid)
+	price, err := strconv.ParseFloat(response[0], 64)
+	if err != nil {
+		log.Panic(err)
 	}
+
+	for i := 2; i < len(response); i++ { // Takes care of stupid stocks with names like "Groupon, Inc." that throw off the strings.Split() method above
+		stock.Name = fmt.Sprint(stock.Name, response[i])
+	}
+
+	stock.Name = strings.TrimSuffix(stock.Name, "\n") // Kill the silly newline character
+
+	stock.Price = int(price * 100) // Convert to turnips
 
 	return stock
 }
