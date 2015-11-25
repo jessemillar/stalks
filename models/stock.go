@@ -1,44 +1,43 @@
 package models
 
 import (
-	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Stock struct {
-	Change           float64 `json:"Change"`
-	ChangePercent    float64 `json:"ChangePercent"`
-	ChangePercentYTD float64 `json:"ChangePercentYTD"`
-	ChangeYTD        float64 `json:"ChangeYTD"`
-	High             float64 `json:"High"`
-	LastPrice        float64 `json:"LastPrice"`
-	Price            int
-	Low              float64 `json:"Low"`
-	MSDate           float64 `json:"MSDate"`
-	MarketCap        int     `json:"MarketCap"`
-	Name             string  `json:"Name"`
-	Open             float64 `json:"Open"`
-	Status           string  `json:"Status"`
-	Symbol           string  `json:"Symbol"`
-	Timestamp        string  `json:"Timestamp"`
-	Volume           int     `json:"Volume"`
+	Name  string
+	Ask   float64
+	Bid   float64
+	Price int
 }
 
 func CheckStock(symbol string) *Stock {
 	client := new(http.Client)
-	res, err := client.Get("http://dev.markitondemand.com/Api/v2/Quote/json?symbol=" + symbol)
+	res, err := client.Get("http://finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=nab")
 	if err != nil {
 		log.Panic(err)
 	}
 
-	var stock = new(Stock)                        // Make a new instance of the Stock struct
-	err = json.NewDecoder(res.Body).Decode(stock) // Populate it with our JSON data
-	if err != nil {                               // Die if there was an error
+	var stock = new(Stock) // Make a new instance of the Stock struct
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
 		log.Panic(err)
 	}
 
-	stock.Price = int(stock.LastPrice * 100) // Convert to turnips
+	response := strings.Split(string(body), ",")
+
+	ask, _ := strconv.ParseFloat(response[1], 64)
+	bid, _ := strconv.ParseFloat(response[2], 64)
+
+	stock.Name = response[0]
+	stock.Ask = ask * 100
+	stock.Bid = bid * 100
+	stock.Price = int((stock.Ask + stock.Bid) / 2) // Ghetto and temporary
 
 	return stock
 }
