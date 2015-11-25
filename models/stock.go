@@ -37,7 +37,12 @@ func CheckStock(symbol string) *Stock {
 	stock.Name = response[0]
 	stock.Ask = ask * 100
 	stock.Bid = bid * 100
-	stock.Price = int(stock.Bid) // Ghetto and temporary
+
+	if stock.Ask > stock.Bid { // Ghetto and temporary
+		stock.Price = int(stock.Ask)
+	} else {
+		stock.Price = int(stock.Bid)
+	}
 
 	return stock
 }
