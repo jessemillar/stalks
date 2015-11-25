@@ -17,6 +17,10 @@ func Sell(userID string, quantity int, symbol string, ag *accessors.AccessorGrou
 	stock := models.CheckStock(symbol)
 	user := ag.GetUser(userID)
 
+	if stock.Name == "N/A" || stock.Price == 0 {
+		return fmt.Sprintf("%s does not appear to be a valid stock... Please try again.\n", strings.ToUpper(symbol)) // Return the price through the API endpoint
+	}
+
 	holdings := ag.GetShare(userID, symbol)
 	if holdings >= quantity { // If we successfully sell
 		ag.SubtractShares(userID, symbol, quantity)

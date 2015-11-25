@@ -17,6 +17,10 @@ func Buy(userID string, quantity int, symbol string, ag *accessors.AccessorGroup
 	stock := models.CheckStock(symbol)
 	user := ag.GetUser(userID)
 
+	if stock.Name == "N/A" || stock.Price == 0 {
+		return fmt.Sprintf("%s does not appear to be a valid stock... Please try again.\n", strings.ToUpper(symbol)) // Return the price through the API endpoint
+	}
+
 	// Make sure they have enough turnips to buy
 	if user.Turnips < stock.Price*quantity {
 		return fmt.Sprintf("%s shares of %s costs %s turnips and you have %s turnips.\n", Comma(quantity), strings.ToUpper(symbol), Comma(stock.Price*quantity), Comma(user.Turnips)) // Return information about a user's portfolio
