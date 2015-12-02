@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/jessemillar/stalks/accessors"
@@ -24,12 +23,7 @@ func main() {
 	cg.Accessors = ag
 
 	c := cron.New()
-	// c.AddFunc("0 0 18 * * 1-5", func() { helpers.Webhook(helpers.ReportLeaders(ag)) }) // Run at 4pm MST Monday through Friday
-	c.AddFunc("0 8 15 * * 1-5", func() {
-		log.Println("Running")
-		log.Println(helpers.ReportLeaders(ag))
-	})
-	c.Start()
+	c.AddFunc("0 30 17 * * 1-5", func() { helpers.Webhook(helpers.ReportLeaders(ag)) }) // Run at 3:30pm MST Monday through Friday
 
 	goji.Get("/health", cg.Health)
 	goji.Get("/leaders", cg.ReportLeaders)
