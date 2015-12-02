@@ -23,10 +23,13 @@ func main() {
 	cg.Accessors = ag
 
 	c := cron.New()
-	c.AddFunc("0 30 17 * * 1-5", func() { helpers.Webhook(helpers.ReportLeaders(ag)) }) // Run at 3:30pm MST Monday through Friday
+	c.AddFunc("0 40 15 * * 1-5", func() { // Run at 3:45pm MST Monday through Friday
+		helpers.Webhook(helpers.ReportLeaders(ag))
+	})
+	c.Start()
 
 	goji.Get("/health", cg.Health)
-	goji.Get("/leaders", cg.ReportLeaders)
+	goji.Get("/leaderboard", cg.ReportLeaders)
 	goji.Post("/slack", cg.Slack) // The main endpoint that Slack hits
 	goji.Post("/play", cg.User)
 	goji.Post("/portfolio", cg.Portfolio)
