@@ -25,7 +25,7 @@ func ReportLeaders(ag *accessors.AccessorGroup) string {
 			}
 		}
 
-		message = append(message, fmt.Sprintf("<@%s|%s>'s net worth is %s turnips.", user.UserID, user.Username, Comma(worth)))
+		message = append(message, fmt.Sprintf("<@%s|%s> has a net worth of %s turnips.", user.UserID, user.Username, Comma(worth)))
 	}
 
 	response := strings.Join(message, "\n")

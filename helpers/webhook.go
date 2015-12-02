@@ -23,6 +23,7 @@ func Webhook(message string) {
 		log.Panic(err)
 	}
 
+	// Leave these log statements here in case Slack starts being dumb
 	log.Println(resp)
 	log.Println(body)
 }
