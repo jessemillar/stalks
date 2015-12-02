@@ -11,7 +11,7 @@ import (
 func Webhook(message string) {
 	endpoint := os.Getenv("STALKS_SLACK_WEBHOOK")
 
-	if len(endpoint) == 0 { // if the webhook endpoint is not set ignore
+	if len(endpoint) == 0 { // If the webhook endpoint is not set, ignore
 		return
 	}
 

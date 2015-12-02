@@ -29,6 +29,29 @@ func (ag *AccessorGroup) GetUser(userID string) *models.User {
 	return user
 }
 
+// GetAllUsers returns an array of all users from the database
+func (ag *AccessorGroup) GetAllUsers() []*models.User {
+	rows, err := ag.DB.Query("SELECT * FROM users")
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	var users []*models.User
+
+	for rows.Next() {
+		var newUser = new(models.User)
+		err = rows.Scan(&newUser.UserID, &newUser.Username, &newUser.Turnips)
+		if err != nil {
+			log.Panic(err)
+		}
+
+		users = append(users, newUser)
+	}
+
+	return users
+}
+
 // AddTurnips adds a given number of turnips to the given userID
 func (ag *AccessorGroup) AddTurnips(userID string, increase int) {
 	turnips := ag.GetUser(userID).Turnips

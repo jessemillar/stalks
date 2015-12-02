@@ -8,7 +8,7 @@ import (
 	"github.com/jessemillar/stalks/models"
 )
 
-// GetShare get's the given user's investment in a given symbol
+// GetShare gets the given user's investment in a given symbol
 func (ag *AccessorGroup) GetShare(userID string, symbol string) int {
 	var investment = new(models.Investment)
 	err := ag.DB.QueryRow("SELECT * FROM portfolios WHERE userID=? AND ticker=?", userID, strings.ToUpper(symbol)).Scan(&investment.ID, &investment.UserID, &investment.Ticker, &investment.Quantity)
@@ -39,7 +39,7 @@ func (ag *AccessorGroup) GetAllShares(userID string) []models.Investment {
 	return investments
 }
 
-// GetPortfolio get's the given user's portfolio
+// GetPortfolio gets the given user's portfolio
 func (ag *AccessorGroup) GetPortfolio(userID string) models.Portfolio {
 	var portfolio = new(models.Portfolio)
 
@@ -50,7 +50,7 @@ func (ag *AccessorGroup) GetPortfolio(userID string) models.Portfolio {
 	return *portfolio
 }
 
-// AddShares adds a number of shares in a symbol to the given user
+// AddShares adds a number of shares of a symbol to the given user
 func (ag *AccessorGroup) AddShares(userID string, symbol string, increase int) {
 	quantity := ag.GetShare(userID, symbol)
 	if quantity >= 0 {
@@ -78,7 +78,6 @@ func (ag *AccessorGroup) SubtractShares(userID string, symbol string, decrease i
 		return quantity - decrease
 	}
 
-	// You didn't have enough holdings
 	return quantity // Return the current number of holdings
 
 }
