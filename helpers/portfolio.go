@@ -11,22 +11,22 @@ import (
 // Portfolio gets the given user's portfolio and returns it in string form
 func Portfolio(userID string, ag *accessors.AccessorGroup) string {
 	portfolio := ag.GetPortfolio(userID)
-	compose := []string{}
+	message := []string{}
 	worth := portfolio.Turnips
 
-	compose = append(compose, fmt.Sprintf("You have %s turnips in your wallet.", Comma(portfolio.Turnips)))
+	message = append(message, fmt.Sprintf("You have %s turnips in your wallet.", Comma(portfolio.Turnips)))
 
 	for _, value := range portfolio.Investments {
 		if value.Quantity > 0 {
 			price := models.CheckStock(value.Ticker).Price
 			worth = worth + price*value.Quantity
-			compose = append(compose, fmt.Sprintf("You have %s share(s) of %s worth %s turnips total.", Comma(value.Quantity), value.Ticker, Comma(price*value.Quantity)))
+			message = append(message, fmt.Sprintf("You have %s share(s) of %s worth %s turnips total.", Comma(value.Quantity), value.Ticker, Comma(price*value.Quantity)))
 		}
 	}
 
-	compose = append(compose, fmt.Sprintf("Your net worth is %s turnips.", Comma(worth)))
+	message = append(message, fmt.Sprintf("Your net worth is %s turnips.", Comma(worth)))
 
-	response := strings.Join(compose, "\n")
+	response := strings.Join(message, "\n")
 
 	return response
 }

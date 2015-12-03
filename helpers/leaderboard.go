@@ -28,7 +28,7 @@ func ReportLeaders(ag *accessors.AccessorGroup) string {
 		message = append(message, fmt.Sprintf("<@%s|%s> has a net worth of %s turnips.", user.UserID, user.Username, Comma(worth)))
 	}
 
-	response := strings.Join(message, "\n")
+	response := strings.Join(message, "\\n") // Double escape the newline because Slack incoming webhooks are obsessive with JSON formatting while the /slash-command "endpoints" are now
 
 	return response
 }
