@@ -29,5 +29,5 @@ func (s SortedPortfolioValue) Swap(i, j int) {
 
 // Less returns true if SortedPortfolioValues at index i is less than index j
 func (s SortedPortfolioValue) Less(i, j int) bool {
-	return s[i].Value < s[j].Value
+	return s[i].Value > s[j].Value // The greater value should sort first
 }
