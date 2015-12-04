@@ -2,18 +2,19 @@ package helpers
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/jessemillar/stalks/accessors"
 	"github.com/jessemillar/stalks/models"
 )
 
+// ReportLeaders returns a string of the leaderboard
 func ReportLeaders(ag *accessors.AccessorGroup) string {
-	message := []string{}
 	users := ag.GetAllUsers()
+	pValues := make([]models.PortfolioValue, len(users))
 
-	message = append(message, fmt.Sprintf("*End of the Day Leaderboard*"))
-
+	// Compile portfolio data
 	for _, user := range users {
 		portfolio := ag.GetPortfolio(user.UserID)
 		worth := portfolio.Turnips
@@ -25,7 +26,18 @@ func ReportLeaders(ag *accessors.AccessorGroup) string {
 			}
 		}
 
-		message = append(message, fmt.Sprintf("<@%s|%s> has a net worth of %s turnips.", user.UserID, user.Username, Comma(worth)))
+		pValues = append(pValues, models.PortfolioValue{UserID: user.UserID, Username: user.Username, Value: worth})
+
+	}
+
+	// Sort the portfolios by value
+	sort.Sort(models.SortedPortfolioValue(pValues))
+
+	message := []string{}
+	message = append(message, fmt.Sprintf("*End of the Day Leaderboard*"))
+	// Run through the sorted values and compile the message
+	for _, pValue := range pValues {
+		message = append(message, fmt.Sprintf("<@%s|%s> has a net worth of %s turnips.", pValue.UserID, pValue.Username, Comma(pValue.Value)))
 	}
 
 	response := strings.Join(message, "\\n") // Double escape the newline because Slack incoming webhooks are obsessive with JSON formatting while the /slash-command "endpoints" are now
