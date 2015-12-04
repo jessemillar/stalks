@@ -12,7 +12,7 @@ import (
 // ReportLeaders returns a string of the leaderboard
 func ReportLeaders(ag *accessors.AccessorGroup) string {
 	users := ag.GetAllUsers()
-	pValues := make([]models.PortfolioValue, len(users))
+	pValues := []models.PortfolioValue{}
 
 	// Compile portfolio data
 	for _, user := range users {
