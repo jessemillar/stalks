@@ -23,7 +23,7 @@ func main() {
 	cg.Accessors = ag
 
 	c := cron.New()
-	c.AddFunc("0 0 16 * * 1-5", func() { // Run at 2:00pm MST Monday through Friday
+	c.AddFunc("0 0 14 * * 1-5", func() { // Run at 2:00pm MST Monday through Friday
 		helpers.Webhook(helpers.ReportLeaders(ag))
 	})
 	c.Start()
