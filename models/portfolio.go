@@ -19,7 +19,7 @@ type SortedPortfolioValue []PortfolioValue
 
 // Len returns the lenght of the SortedPortfolioValue
 func (s SortedPortfolioValue) Len() int {
-	return s.Len()
+	return len(s)
 }
 
 // Swap swaps positions of the SortedPortfolioValues
