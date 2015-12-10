@@ -19,15 +19,16 @@ func ReportLeaders(ag *accessors.AccessorGroup) string {
 		portfolio := ag.GetPortfolio(user.UserID)
 		worth := portfolio.Turnips
 
-		for _, value := range portfolio.Investments {
-			if value.Quantity > 0 {
-				price := models.CheckStock(value.Ticker).Price
-				worth = worth + price*value.Quantity
+		if worth != 1000000 && len(portfolio.Investments) > 0 {
+			for _, value := range portfolio.Investments {
+				if value.Quantity > 0 {
+					price := models.CheckStock(value.Ticker).Price
+					worth = worth + price*value.Quantity
+				}
 			}
+
+			pValues = append(pValues, models.PortfolioValue{UserID: user.UserID, Username: user.Username, Value: worth})
 		}
-
-		pValues = append(pValues, models.PortfolioValue{UserID: user.UserID, Username: user.Username, Value: worth})
-
 	}
 
 	// Sort the portfolios by value
