@@ -1,4 +1,4 @@
-FROM golang:1.5
+FROM golang:1.6
 
 RUN mkdir -p /go/src/github.com/jessemillar
 ADD . /go/src/github.com/jessemillar/stalks
@@ -9,4 +9,4 @@ RUN go install -v
 
 CMD ["/go/bin/stalks"]
 
-EXPOSE 8000
+EXPOSE 15000
