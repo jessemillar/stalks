@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// Construct the dsn used for the database
-	dsn := os.Getenv("STALKS_DB_USER") + ":" + os.Getenv("STALKS_DB_PASS") + "@tcp(" + os.Getenv("STALKS_DB_HOST") + ":" + os.Getenv("STALKS_DB_PORT") + ")/" + os.Getenv("STALKS_DB_NAME")
+	dsn := os.Getenv("DATABASE_USERNAME") + ":" + os.Getenv("DATABASE_PASSWORD") + "@tcp(" + os.Getenv("DATABASE_HOST") + ":" + os.Getenv("DATABASE_PORT") + ")/" + os.Getenv("DATABASE_NAME")
 
 	// Construct a new AccessorGroup and connects it to the database
 	ag := new(accessors.AccessorGroup)
